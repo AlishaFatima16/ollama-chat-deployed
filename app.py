@@ -12,12 +12,16 @@ st.set_page_config(page_title="AI Chat Assistant", page_icon="🤖", layout="cen
 st.title("🤖 AI Chat Assistant")
 st.caption("Powered by Groq LLM")
 
+# Load API key from secrets or ask user
+api_key = st.secrets.get("GROQ_API_KEY", "")
+
 # Sidebar
 with st.sidebar:
     st.header("⚙️ Settings")
 
-    api_key = st.text_input("Groq API Key", type="password", placeholder="gsk_...")
-    st.caption("Get a free key at console.groq.com")
+    if not api_key:
+        api_key = st.text_input("Groq API Key", type="password", placeholder="gsk_...")
+        st.caption("Get a free key at console.groq.com")
 
     model = st.selectbox("Choose Model", GROQ_MODELS)
 
