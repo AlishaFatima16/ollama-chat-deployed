@@ -14,66 +14,25 @@ st.set_page_config(page_title="AI Chat Assistant", page_icon="🤖", layout="wid
 
 st.markdown("""
 <style>
-    .stApp { background-color: #eef1f7; }
-
-    section[data-testid="stSidebar"] {
-        background-color: #dde3f0;
-        border-right: 1px solid #c5cde0;
-    }
-    section[data-testid="stSidebar"] p,
-    section[data-testid="stSidebar"] label,
-    section[data-testid="stSidebar"] span,
-    section[data-testid="stSidebar"] div {
-        color: #1a1a2e !important;
-    }
-
-    h1, h2, h3, h4 { color: #1a1a2e !important; }
-    p, span, label { color: #1a1a2e; }
-    .stCaption { color: #444 !important; }
-
-    [data-testid="stChatMessage"] {
-        background-color: #ffffff;
-        border-radius: 16px;
-        padding: 14px 18px;
-        margin: 8px 0;
-        border: 1px solid #c5cde0;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-
     [data-testid="stChatMessage"][data-message-author-role="user"] {
         background: linear-gradient(135deg, #4f8ef7, #2563eb);
-        border: none;
+        border-radius: 16px;
         margin-left: 15%;
         border-bottom-right-radius: 4px;
+        padding: 12px 16px;
     }
     [data-testid="stChatMessage"][data-message-author-role="user"] p {
         color: #ffffff !important;
     }
-
     [data-testid="stChatMessage"][data-message-author-role="assistant"] {
         background-color: #ffffff;
+        border-radius: 16px;
         margin-right: 15%;
         border-bottom-left-radius: 4px;
+        border: 1px solid #c5cde0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        padding: 12px 16px;
     }
-    [data-testid="stChatMessage"][data-message-author-role="assistant"] p {
-        color: #1a1a2e !important;
-    }
-
-    .stChatInput textarea {
-        background-color: #ffffff !important;
-        border: 1.5px solid #b0bcd4 !important;
-        border-radius: 14px !important;
-        color: #1a1a2e !important;
-        font-size: 15px !important;
-    }
-
-    .stSelectbox > div > div {
-        background-color: #ffffff !important;
-        border: 1.5px solid #b0bcd4 !important;
-        border-radius: 10px !important;
-        color: #1a1a2e !important;
-    }
-
     .stButton > button {
         border-radius: 10px !important;
         background: linear-gradient(135deg, #ef4444, #dc2626) !important;
@@ -81,15 +40,6 @@ st.markdown("""
         border: none !important;
         font-weight: 600 !important;
     }
-
-    div[data-testid="stFileUploader"] {
-        background-color: #dde3f0;
-        border: 1.5px dashed #4f8ef7;
-        border-radius: 10px;
-        padding: 8px;
-    }
-
-    hr { border-color: #c5cde0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -115,10 +65,6 @@ with st.sidebar:
     )
     if uploaded_file:
         st.success(f"✅ {uploaded_file.name}")
-
-    st.markdown("---")
-    st.markdown("### 🎙️ Voice Input")
-    audio_input = st.audio_input("Record a message")
 
     st.markdown("---")
     st.markdown("### 💬 History")
@@ -165,27 +111,8 @@ def extract_file_text(file):
     else:
         return file.read().decode("utf-8", errors="ignore")
 
-# Helper: transcribe voice
-def transcribe_audio(audio_bytes, api_key):
-    client = Groq(api_key=api_key)
-    transcription = client.audio.transcriptions.create(
-        file=("voice.wav", audio_bytes, "audio/wav"),
-        model="whisper-large-v3",
-    )
-    return transcription.text
-
-# Handle voice input
-voice_text = ""
-if audio_input and api_key:
-    with st.spinner("Transcribing voice..."):
-        try:
-            voice_text = transcribe_audio(audio_input.read(), api_key)
-            st.info(f"🎙️ Transcribed: {voice_text}")
-        except Exception as e:
-            st.error(f"Voice transcription failed: {str(e)}")
-
 # Chat input
-user_input = st.chat_input("Type your message here...") or voice_text
+user_input = st.chat_input("Type your message here...")
 
 if user_input:
     if not api_key:
