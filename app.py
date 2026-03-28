@@ -14,23 +14,30 @@ st.set_page_config(page_title="AI Chat Assistant", page_icon="🤖", layout="wid
 
 st.markdown("""
 <style>
-    .stApp { background-color: #f5f7fa; }
+    .stApp { background-color: #eef1f7; }
 
     section[data-testid="stSidebar"] {
-        background-color: #ffffff;
-        border-right: 1px solid #e0e0e0;
+        background-color: #dde3f0;
+        border-right: 1px solid #c5cde0;
+    }
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] label,
+    section[data-testid="stSidebar"] span,
+    section[data-testid="stSidebar"] div {
+        color: #1a1a2e !important;
     }
 
-    h1 { color: #1a1a2e !important; font-size: 1.8rem !important; }
-    .stCaption { color: #666666 !important; }
+    h1, h2, h3, h4 { color: #1a1a2e !important; }
+    p, span, label { color: #1a1a2e; }
+    .stCaption { color: #444 !important; }
 
     [data-testid="stChatMessage"] {
         background-color: #ffffff;
         border-radius: 16px;
         padding: 14px 18px;
         margin: 8px 0;
-        border: 1px solid #e8e8e8;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        border: 1px solid #c5cde0;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
     [data-testid="stChatMessage"][data-message-author-role="user"] {
@@ -39,7 +46,6 @@ st.markdown("""
         margin-left: 15%;
         border-bottom-right-radius: 4px;
     }
-
     [data-testid="stChatMessage"][data-message-author-role="user"] p {
         color: #ffffff !important;
     }
@@ -49,14 +55,13 @@ st.markdown("""
         margin-right: 15%;
         border-bottom-left-radius: 4px;
     }
-
     [data-testid="stChatMessage"][data-message-author-role="assistant"] p {
         color: #1a1a2e !important;
     }
 
     .stChatInput textarea {
         background-color: #ffffff !important;
-        border: 1.5px solid #dde1e7 !important;
+        border: 1.5px solid #b0bcd4 !important;
         border-radius: 14px !important;
         color: #1a1a2e !important;
         font-size: 15px !important;
@@ -64,7 +69,7 @@ st.markdown("""
 
     .stSelectbox > div > div {
         background-color: #ffffff !important;
-        border: 1.5px solid #dde1e7 !important;
+        border: 1.5px solid #b0bcd4 !important;
         border-radius: 10px !important;
         color: #1a1a2e !important;
     }
@@ -75,22 +80,16 @@ st.markdown("""
         color: white !important;
         border: none !important;
         font-weight: 600 !important;
-        padding: 0.5rem 1rem !important;
     }
 
     div[data-testid="stFileUploader"] {
-        background-color: #f0f4ff;
+        background-color: #dde3f0;
         border: 1.5px dashed #4f8ef7;
         border-radius: 10px;
         padding: 8px;
     }
 
-    .stInfo {
-        background-color: #eef2ff !important;
-        border-radius: 10px !important;
-    }
-
-    hr { border-color: #e0e0e0 !important; }
+    hr { border-color: #c5cde0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
