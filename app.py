@@ -14,60 +14,83 @@ st.set_page_config(page_title="AI Chat Assistant", page_icon="🤖", layout="wid
 
 st.markdown("""
 <style>
-    .stApp { background-color: #0f1117; }
-    section[data-testid="stSidebar"] { background-color: #1a1d27; border-right: 1px solid #2e3047; }
-    section[data-testid="stSidebar"] * { color: #c9d1d9 !important; }
-    h1 { color: #ffffff !important; font-size: 1.8rem !important; }
-    .stCaption { color: #8b949e !important; }
+    .stApp { background-color: #f5f7fa; }
+
+    section[data-testid="stSidebar"] {
+        background-color: #ffffff;
+        border-right: 1px solid #e0e0e0;
+    }
+
+    h1 { color: #1a1a2e !important; font-size: 1.8rem !important; }
+    .stCaption { color: #666666 !important; }
 
     [data-testid="stChatMessage"] {
+        background-color: #ffffff;
         border-radius: 16px;
-        padding: 12px 16px;
-        margin: 6px 0;
-        max-width: 80%;
+        padding: 14px 18px;
+        margin: 8px 0;
+        border: 1px solid #e8e8e8;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
+
     [data-testid="stChatMessage"][data-message-author-role="user"] {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
-        margin-left: auto;
+        background: linear-gradient(135deg, #4f8ef7, #2563eb);
+        border: none;
+        margin-left: 15%;
         border-bottom-right-radius: 4px;
     }
-    [data-testid="stChatMessage"][data-message-author-role="assistant"] {
-        background-color: #1e2030;
-        margin-right: auto;
-        border-bottom-left-radius: 4px;
-        border: 1px solid #2e3047;
+
+    [data-testid="stChatMessage"][data-message-author-role="user"] p {
+        color: #ffffff !important;
     }
-    [data-testid="stChatMessage"] p { color: #f0f0f0 !important; }
+
+    [data-testid="stChatMessage"][data-message-author-role="assistant"] {
+        background-color: #ffffff;
+        margin-right: 15%;
+        border-bottom-left-radius: 4px;
+    }
+
+    [data-testid="stChatMessage"][data-message-author-role="assistant"] p {
+        color: #1a1a2e !important;
+    }
 
     .stChatInput textarea {
-        background-color: #1e2030 !important;
-        border: 1px solid #2e3047 !important;
-        color: #f0f0f0 !important;
-        border-radius: 12px !important;
+        background-color: #ffffff !important;
+        border: 1.5px solid #dde1e7 !important;
+        border-radius: 14px !important;
+        color: #1a1a2e !important;
+        font-size: 15px !important;
     }
 
     .stSelectbox > div > div {
-        background-color: #1e2030 !important;
-        border: 1px solid #2e3047 !important;
-        border-radius: 8px !important;
-        color: #f0f0f0 !important;
+        background-color: #ffffff !important;
+        border: 1.5px solid #dde1e7 !important;
+        border-radius: 10px !important;
+        color: #1a1a2e !important;
     }
+
     .stButton > button {
         border-radius: 10px !important;
         background: linear-gradient(135deg, #ef4444, #dc2626) !important;
         color: white !important;
         border: none !important;
         font-weight: 600 !important;
+        padding: 0.5rem 1rem !important;
     }
-    .stButton > button:hover {
-        opacity: 0.85 !important;
-    }
+
     div[data-testid="stFileUploader"] {
-        background-color: #1e2030;
-        border: 1px dashed #2e3047;
+        background-color: #f0f4ff;
+        border: 1.5px dashed #4f8ef7;
         border-radius: 10px;
         padding: 8px;
     }
+
+    .stInfo {
+        background-color: #eef2ff !important;
+        border-radius: 10px !important;
+    }
+
+    hr { border-color: #e0e0e0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -85,18 +108,18 @@ with st.sidebar:
     model = st.selectbox("🧠 Model", GROQ_MODELS)
 
     st.markdown("---")
-    st.markdown("### 📎 File Upload")
+    st.markdown("### 📎 Attach File")
     uploaded_file = st.file_uploader(
-        "Attach a file to your message",
+        "Upload file",
         type=["txt", "pdf", "md"],
         label_visibility="collapsed"
     )
     if uploaded_file:
-        st.success(f"Attached: {uploaded_file.name}")
+        st.success(f"✅ {uploaded_file.name}")
 
     st.markdown("---")
     st.markdown("### 🎙️ Voice Input")
-    audio_input = st.audio_input("Record a voice message")
+    audio_input = st.audio_input("Record a message")
 
     st.markdown("---")
     st.markdown("### 💬 History")
@@ -170,7 +193,6 @@ if user_input:
         st.warning("Please enter your Groq API key in the sidebar.")
         st.stop()
 
-    # Append file content if uploaded
     full_message = user_input
     if uploaded_file:
         file_text = extract_file_text(uploaded_file)
