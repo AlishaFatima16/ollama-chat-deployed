@@ -1,4 +1,4 @@
-# 🤖 AI Chat Assistant
+## AI Chat Assistant
 A fully deployed AI chat web app built with Python and Streamlit, powered by Groq's ultra-fast LLM API.
 🔗 **Live Demo:** https://aichatbot-llm.streamlit.app/
 💻 **GitHub:** https://github.com/AlishaFatima16/ollama-chat-deployed
